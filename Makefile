@@ -12,8 +12,8 @@ build:
 		--dev-packages="alpine-sdk lua-aports openssl openssl-dev bison ncurses-dev cmake"
 
 test:
-	@docker build -t imega/mysql:test .
-	@docker run -d --name server_db imega/mysql:test
+	@docker build -t imega/mysql-test:test .
+	@docker run -d --name server_db imega/mysql-test:test
 	@docker run --rm=$(DOCKER_RM) \
 		-v $(CURDIR)/tests:/data \
 		--link server_db:server \
