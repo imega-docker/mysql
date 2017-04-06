@@ -20,4 +20,7 @@ test:
 		imega/mysql-client \
 		mysql --host=server -e "source /data/dump.sql"
 
+stop:
+	@echo stop
+
 .PHONY: build

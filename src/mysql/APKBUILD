@@ -1,7 +1,9 @@
 # Contributor: Carlo Landmeter <clandmeter@gmail.com>
 # Maintainer: Natanael Copa <ncopa@alpinelinux.org>
 pkgname=mysql
-pkgver=5.5.54
+vmajor=5
+vminor=5
+vbuild=53
 pkgrel=0
 pkgdir=/
 pkgdesc="A fast SQL database server"
@@ -13,11 +15,12 @@ license='GPL'
 depends="mysql-common"
 depends_dev="openssl-dev zlib-dev"
 makedepends="libtool readline-dev openssl-dev ncurses-dev zlib-dev cmake bison perl libaio-dev"
-source="ftp://mirror.switch.ch/mirror/mysql/Downloads/MySQL-5.5/mysql-$pkgver.tar.gz"
+source="http://mysql.mirrors.pair.com/Downloads/MySQL-$vmajor.$vminor/mysql-$vmajor.$vminor.$vbuild.tar.gz"
+source_de="ftp://ftp.gwdg.de/pub/misc/mysql/Downloads/MySQL-$vmajor.$vminor/mysql-$vmajor.$vminor.$vbuild.tar.gz"
 subpackages="$pkgname-doc $pkgname-dev $pkgname-libs $pkgname-test:mytest
     $pkgname-common $pkgname-client $pkgname-bench"
 
-_builddir="$srcdir/$pkgname-$pkgver"
+_builddir="$srcdir/$pkgname-$vmajor.$vminor.$vbuild"
 
 prepare() {
     cd "$_builddir"
@@ -68,33 +71,22 @@ build() {
         make || return 1
 }
 
-#       -DWITH_LIBWRAP=ON \
 package() {
-        cd "$_builddir"
-        make DESTDIR="$pkgdir/" install || return 1
-
-    # use small example config as default, which has tcp disabled
+    cd "$_builddir"
+    make DESTDIR="$pkgdir/" install || return 1
     install -D  "$pkgdir"/usr/share/mysql/my-medium.cnf \
         "$pkgdir"/etc/mysql/my.cnf || return 1
 
-        install -dDo mysql "$pkgdir"/var/log/mysql || return 1
-        install -dDo mysql "$pkgdir"/var/run/mysqld || return 1
+    install -dDo mysql "$pkgdir"/var/log/mysql || return 1
+    install -dDo mysql "$pkgdir"/var/run/mysqld || return 1
 
-    # libmysqlclient_r is no more.  Upstream tries to replace it with
-    # symlinks but that really doesn't work (wrong soname in particular).
-    # We'll keep just the devel libmysqlclient_r.so link, so that
-    # rebuilding without any source change is enough to get rid of
-    # dependency on libmysqlclient_r.
     rm -f "$pkgdir"/usr/lib/libmysqlclient_r.so*
     ln -s libmysqlclient.so "$pkgdir"/usr/lib/libmysqlclient_r.so
 
-    # mysql-test includes one executable that doesn't belong under
-    # /usr/share, so move it and provide a symlink
     mv "$pkgdir"/usr/share/mysql-test/lib/My/SafeProcess/my_safe_process \
         "$pkgdir"/usr/bin
     ln -s ../../../../../bin/my_safe_process \
         "$pkgdir"/usr/share/mysql-test/lib/My/SafeProcess/my_safe_process
-
 }
 
 dev(){
@@ -181,7 +173,3 @@ bench() {
     mkdir -p "$subpkgdir"/usr/share/
     mv "$pkgdir"/usr/share/sql-bench "$subpkgdir"/usr/share/
 }
-
-md5sums="358b596e62699397aeee3dfb469f5823  mysql-5.5.54.tar.gz"
-sha256sums="273bcbcf8cc84061eb07c359308563b2029eb3f70f78b558905bc1b5c5791ab8  mysql-5.5.54.tar.gz"
-sha512sums="885e21a59cf7e835dd1ca7254889fc4e5762fdebbb1e625465ef7fa3be6533d48091b68a6d1f2de0297270cfd0ca7e8e643fc2e0b7fc14325f48708e7a55460b  mysql-5.5.54.tar.gz"
