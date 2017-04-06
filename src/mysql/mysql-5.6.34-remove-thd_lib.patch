@@ -1,0 +1,24 @@
+--- src/mysql-5.6.35/mysys/stacktrace.c.orig	2016-11-28 16:36:22.000000000 +0300
++++ src/mysql-5.6.35/mysys/stacktrace.c	2017-04-07 15:56:40.000000000 +0300
+@@ -293,8 +293,10 @@
+ 
+ void my_print_stacktrace(uchar* stack_bottom, ulong thread_stack)
+ {
++  /* We are 1 frame above signal frame with NPTL */
++  const uint sigreturn_frame_count = 1;
+   uchar** fp;
+-  uint frame_count = 0, sigreturn_frame_count;
++  uint frame_count = 0;
+ #if defined(__alpha__) && defined(__GNUC__)
+   uint32* pc;
+ #endif
+@@ -356,9 +358,6 @@
+ 		      :"r"(pc));
+ #endif  /* __alpha__ */
+ 
+-  /* We are 1 frame above signal frame with NPTL and 2 frames above with LT */
+-  sigreturn_frame_count = thd_lib_detected == THD_LIB_LT ? 2 : 1;
+-
+   while (fp < (uchar**) stack_bottom)
+   {
+ #if defined(__i386__) || defined(__x86_64__)

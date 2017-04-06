@@ -2,14 +2,16 @@
 
 DOCKER_RM = false
 
+default: build
+
 build:
 	@docker run --rm \
 		-v $(CURDIR)/runner:/runner \
 		-v $(CURDIR)/build:/build \
 		-v $(CURDIR)/src:/src \
 		imega/base-builder \
-		--packages="zlib libstdc++" \
-		--dev-packages="alpine-sdk bison ncurses-dev cmake"
+		--packages="zlib libstdc++ libaio" \
+		--dev-packages="alpine-sdk zlib-dev bison ncurses-dev cmake libtool readline-dev libaio-dev"
 
 test:
 	@docker build -t imega/mysql-test .

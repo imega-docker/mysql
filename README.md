@@ -1,13 +1,14 @@
 # mysql - WE RUSH!
 
 This is docker image to run a MySQL database server.
-[![](https://images.microbadger.com/badges/image/imega/mysql.svg)](http://microbadger.com/images/imega/mysql "Get your own image badge on microbadger.com")[![Build Status](https://travis-ci.org/imega-docker/mysql.svg?branch=master)](https://travis-ci.org/imega-docker/mysql)
 
-Image size: 85 MB
+[![](https://images.microbadger.com/badges/image/imega/mysql:5.6.34.svg)](https://microbadger.com/images/imega/mysql:5.6.34 "Get your own image badge on microbadger.com")[![Build Status](https://travis-ci.org/imega-docker/mysql.svg?branch=master)](https://travis-ci.org/imega-docker/mysql)
+
+Image size: 154 MB
 
 From image: alpine:3.5
 
-Mysql Server: 5.5.54
+Mysql Server: 5.6.34
 
 ## FREE ACCESS to server! Why?
 
