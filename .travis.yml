@@ -11,6 +11,6 @@ script:
   - make build test
 
 after_success:
-  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - docker login --username $DOCKER_USER --password $DOCKER_PASS
   - docker build -f Dockerfile -t imega/mysql-test .
   - docker push imega/mysql-test
