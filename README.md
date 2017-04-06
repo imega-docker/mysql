@@ -4,7 +4,7 @@ This is docker image to run a MySQL database server.
 
 [![Build Status](https://travis-ci.org/imega-docker/mysql.svg?branch=master)](https://travis-ci.org/imega-docker/mysql)
 
-Image size: 85.27 MB
+Image size: 85 MB
 
 From image: alpine:3.5
 
@@ -97,6 +97,10 @@ Now you see in folder /tmp/empty/db
 ## Thanks for reading!
 
 ### Alpine Packages
+  - musl (1.1.15-r6)
+  - libgcc (6.2.1-r1)
+  - libstdc++ (6.2.1-r1)
+  - zlib (1.2.8-r2)
 
 ## The MIT License (MIT)
 

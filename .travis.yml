@@ -20,8 +20,8 @@ after_success:
   - >
     [ "${TRAVIS_TEST_RESULT}" == 0 ] && [ "${TRAVIS_PULL_REQUEST}" == "false" ] && [ "${TRAVIS_BRANCH}" != "master" ] &&
       (docker login --username $DOCKER_USER --password $DOCKER_PASS; \
-      docker build -f Dockerfile -t imega/mysql-test:$TRAVIS_BRANCH . ; \
-      docker push imega/mysql-test:$TRAVIS_BRANCH)
+      docker build -f Dockerfile -t imega/mysql:$TRAVIS_BRANCH . ; \
+      docker push imega/mysql:$TRAVIS_BRANCH)
 
   - >
     [ "${TRAVIS_TEST_RESULT}" == 0 ] && [ "${TRAVIS_PULL_REQUEST}" == "false" ] && [ "${TRAVIS_BRANCH}" == "master" ] &&
