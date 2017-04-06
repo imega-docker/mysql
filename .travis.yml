@@ -1,5 +1,12 @@
+branches:
+  only:
+    - master
+    - /^\d+\.\d+\.\d+$/
+
 services:
   - docker
+
+language: cpp
 
 env:
   global:
@@ -7,9 +14,27 @@ env:
     - secure: "CFTyzfMGhxIDGWhT1ZJzDCMWSOEfjsMDzlOLPDVFrXcNFwtIj5IdK/BhIIWA12fJYo3F+B0APmF8cPXAc1UNPba3/5hyyF7nLRoLurDu+uD+KyKVIdO67L3Of76pXZGEZpv8t2z6NfOQqMN6qRks9Y/Hc+YQNu+UF9t1OJZfSWf+dnz7aiXQRa+dRaSEu8R3ZOCxJyNTnNhsFsMmvqUcdjTr1E9N8B7DD6Ct9xvSk5F7FSr1/BOgOe5V/HST8JD557Z0RXcudre6ks3f6uBH6yOheegfAXFIrYv/CaOUiChOE8mL19jZdMgbuQeJlo0Ny+ga6GW079PIDE0mjfIiTTpFOnw09YwFkh46euukilFj6OY5Oqo3kyYBSFwxsfmZk5ogf1DTnpaRv4Wwd2vyE66VgN14qRAucfmCaTRU5Kt2/ks+M4KVWnOmriBQWaUlH/uB7X6Saq0e2/J4ck/XShWuVeYHEpQ7YjJWi3oksmjvGhyEro8tUOUIghF9xSNQdZow0xgIqkUy1ntwbN+NYlaLbRRwx16ICZ4D8KHk1otohQssiw7P2zOKYyZdBQIif9KX0idwifXbMjr3h+RtQOA4eyN9nj8/PdcyXg2hdRQxJjrK1SLfzXRvR6P/LxthMPdj6dItM4nsAWaUrYfxi9SsZllJPOUakfuZ8IC8D9Q="
 
 script:
-  - make build test
+  - echo TRAVIS_TEST_RESULT
+  - echo $TRAVIS_TEST_RESULT
+  - echo TRAVIS_PULL_REQUEST
+  - echo $TRAVIS_PULL_REQUEST
+  - echo TRAVIS_BRANCH
+  - echo $TRAVIS_BRANCH
+  - make stop
+  - >
+    [ "${TRAVIS_TEST_RESULT}" == 0 ] && [ "${TRAVIS_PULL_REQUEST}" == 2 ] &&
+      echo 1111;echo 222 ||
+      echo 3333
 
 after_success:
-  - docker login --username $DOCKER_USER --password $DOCKER_PASS
-  - docker build -f Dockerfile -t imega/mysql-test:$TRAVIS_BRANCH .
-  - docker push imega/mysql-test:$TRAVIS_BRANCH
+  - if [ "${TRAVIS_TEST_RESULT}" == 0 && "${TRAVIS_PULL_REQUEST}" == "false" ]; then \
+      docker login --username $DOCKER_USER --password $DOCKER_PASS; \
+      docker build -f Dockerfile -t imega/mysql-test:$TRAVIS_BRANCH . ; \
+      docker push imega/mysql-test:$TRAVIS_BRANCH
+    fi
+
+  - if [ "${TRAVIS_TEST_RESULT}" == 0 && "${TRAVIS_PULL_REQUEST}" == "false" && "$TRAVIS_BRANCH" == "master" ]; then \
+      docker login --username $DOCKER_USER --password $DOCKER_PASS; \
+      docker build -f Dockerfile -t imega/mysql-test . ; \
+      docker push imega/mysql-test
+    fi

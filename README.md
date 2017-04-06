@@ -4,11 +4,11 @@ This is docker image to run a MySQL database server.
 
 [![Build Status](https://travis-ci.org/imega-docker/mysql.svg?branch=master)](https://travis-ci.org/imega-docker/mysql)
 
-Image size: MB
+Image size: 85.27 MB
 
 From image: alpine:3.5
 
-Mysql Server: 
+Mysql Server: 5.5.53
 
 ## FREE ACCESS to server! Why?
 

@@ -2,8 +2,8 @@
 # Maintainer: Natanael Copa <ncopa@alpinelinux.org>
 pkgname=mysql
 vmajor=5
-vminor=1
-vbuild=72
+vminor=5
+vbuild=53
 pkgrel=0
 pkgdir=/
 pkgdesc="A fast SQL database server"
@@ -15,7 +15,8 @@ license='GPL'
 depends="mysql-common"
 depends_dev="openssl-dev zlib-dev"
 makedepends="libtool readline-dev openssl-dev ncurses-dev zlib-dev cmake bison perl libaio-dev"
-source="http://mysql.mirrors.hoobly.com/Downloads/MySQL-$vmajor.$vminor/mysql-$vmajor.$vminor.$vbuild.tar.gz"
+source="http://mysql.mirrors.pair.com/Downloads/MySQL-$vmajor.$vminor/mysql-$vmajor.$vminor.$vbuild.tar.gz"
+source_de="ftp://ftp.gwdg.de/pub/misc/mysql/Downloads/MySQL-$vmajor.$vminor/mysql-$vmajor.$vminor.$vbuild.tar.gz"
 subpackages="$pkgname-doc $pkgname-dev $pkgname-libs $pkgname-test:mytest
     $pkgname-common $pkgname-client $pkgname-bench"
 
