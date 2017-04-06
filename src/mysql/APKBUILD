@@ -1,7 +1,7 @@
 pkgname=mysql
 vmajor=5
 vminor=5
-vbuild=53
+vbuild=54
 pkgrel=0
 pkgdir=/
 pkgdesc="A fast SQL database server"
