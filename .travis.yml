@@ -11,5 +11,5 @@ script:
 
 after_success:
   - docker login --username $DOCKER_USER --password $DOCKER_PASS
-  - docker build -f Dockerfile -t imega/mysql-test .
-  - docker push imega/mysql-test
+  - docker build -f Dockerfile -t imega/mysql-test:$TRAVIS_BRANCH .
+  - docker push imega/mysql-test:$TRAVIS_BRANCH
