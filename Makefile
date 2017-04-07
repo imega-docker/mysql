@@ -11,7 +11,7 @@ build:
 		-v $(CURDIR)/src:/src \
 		imega/base-builder \
 		--packages="zlib libstdc++ libaio" \
-		--dev-packages="alpine-sdk zlib-dev bison ncurses-dev cmake libtool readline-dev libaio-dev"
+		--dev-packages="alpine-sdk boost-dev@v33 zlib-dev bison ncurses-dev cmake libtool readline-dev libaio-dev"
 
 test:
 	@docker build -t imega/mysql-test .

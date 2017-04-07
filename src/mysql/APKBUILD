@@ -6,15 +6,14 @@ pkgname=mysql
 pkgdir=/
 
 vmajor=5
-vminor=6
-vbuild=35
+vminor=7
+vbuild=16
 
 source="http://mysql.mirrors.pair.com/Downloads/MySQL-$vmajor.$vminor/mysql-$vmajor.$vminor.$vbuild.tar.gz"
 
 _builddir="$srcdir/$pkgname-$vmajor.$vminor.$vbuild"
 
 build() {
-    patch src/mysql-5.6.35/mysys/stacktrace.c < mysql-5.6.34-remove-thd_lib.patch
     cd "$_builddir"
     cmake . -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=/usr \
