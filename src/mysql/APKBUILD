@@ -1,25 +1,20 @@
+# A fast SQL database server
+# http://www.mysql.com/
+# license GPL
+
 pkgname=mysql
-vmajor=5
-vminor=5
-vbuild=54
-pkgrel=0
 pkgdir=/
-pkgdesc="A fast SQL database server"
-url="http://www.mysql.com/"
-pkgusers="mysql"
-pkggroups="mysql"
-arch="all"
-license='GPL'
-depends="mysql-common"
-depends_dev="openssl-dev zlib-dev"
-makedepends="libtool readline-dev openssl-dev ncurses-dev zlib-dev cmake bison perl libaio-dev"
+
+vmajor=5
+vminor=6
+vbuild=34
+
 source="http://mysql.mirrors.pair.com/Downloads/MySQL-$vmajor.$vminor/mysql-$vmajor.$vminor.$vbuild.tar.gz"
-subpackages="$pkgname-doc $pkgname-dev $pkgname-libs $pkgname-test:mytest
-    $pkgname-common $pkgname-client $pkgname-bench"
 
 _builddir="$srcdir/$pkgname-$vmajor.$vminor.$vbuild"
 
 build() {
+    patch src/mysql-5.6.34/mysys/stacktrace.c < mysql-5.6.34-remove-thd_lib.patch
     cd "$_builddir"
     cmake . -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=/usr \
@@ -53,18 +48,16 @@ build() {
         -DWITH_INNOBASE_STORAGE_ENGINE=1 \
         -DWITH_PARTITION_STORAGE_ENGINE=1 \
         -DWITH_READLINE=ON \
-        -DWITH_SSL=no \
+        -DWITH_SSL=bundled \
         -DWITH_ZLIB=system \
         || return 1
+
         make || return 1
 }
 
 package() {
     cd "$_builddir"
     make DESTDIR="$pkgdir/" install || return 1
-    install -D  "$pkgdir"/usr/share/mysql/my-medium.cnf \
-        "$pkgdir"/etc/mysql/my.cnf || return 1
-
     install -dDo mysql "$pkgdir"/var/log/mysql || return 1
     install -dDo mysql "$pkgdir"/var/run/mysqld || return 1
 
